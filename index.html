@@ -112,6 +112,19 @@
   .progress-wrap {
     margin-bottom: 1.5rem;
   }
+  .progress-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--surface);
+  }
+  .progress-input::placeholder {
+    color: var(--text-hint);
+  }
   .progress-label {
     display: flex;
     justify-content: space-between;
@@ -263,6 +276,7 @@
   </header>
 
   <div class="progress-wrap">
+    <input id="active-input" class="progress-input" type="text" placeholder="Activo" aria-label="Activo" />
     <div class="progress-label">
       <span>Progreso</span>
       <span id="prog-text">0 / 12</span>
@@ -378,6 +392,8 @@ function resetAll() {
   buildChecks(b3items, 'checks-b3', 'b3');
   buildChecks(b5items, 'checks-b5', 'b5');
   ['warn-b2','warn-b3'].forEach(id => document.getElementById(id).style.display = 'none');
+  const activeInput = document.getElementById('active-input');
+  if (activeInput) activeInput.value = '';
   updateProgress();
 }
 
