@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checklist Diario StreetPips</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.1);
+    --border-strong: rgba(0,0,0,0.18);
+    --text-primary: #1a1a1a;
+    --text-secondary: #666;
+    --text-hint: #999;
+    --green-bg: #eaf5ee;
+    --green-border: #a3d9b1;
+    --green-text: #1d6e3b;
+    --red-bg: #fdecea;
+    --red-border: #f5a8a0;
+    --red-text: #b92c22;
+    --accent: #1D9E75;
+    --accent-light: #e1f5ee;
+    --radius-md: 8px;
+    --radius-lg: 14px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #18181a;
+      --surface: #232325;
+      --border: rgba(255,255,255,0.1);
+      --border-strong: rgba(255,255,255,0.18);
+      --text-primary: #f0f0f0;
+      --text-secondary: #aaa;
+      --text-hint: #666;
+      --green-bg: #0d2e1c;
+      --green-border: #1d6e3b;
+      --green-text: #5dcaa5;
+      --red-bg: #2d1212;
+      --red-border: #7a2020;
+      --red-text: #f09595;
+      --accent: #5dcaa5;
+      --accent-light: #0d2e1c;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2rem 1rem 3rem;
+  }
+
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+    gap: 12px;
+  }
+
+  .brand-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 3px;
+  }
+
+  .btn-reset {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    border: 0.5px solid var(--border-strong);
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s;
+    flex-shrink: 0;
+  }
+  .btn-reset:hover { background: var(--bg); }
+
+  .progress-wrap {
+    margin-bottom: 1.5rem;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 5px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 5px;
+    background: var(--accent);
+    border-radius: 99px;
+    transition: width 0.3s ease;
+  }
+
+  .block {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .block-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid transparent;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+    user-select: none;
+    margin-bottom: 2px;
+  }
+  .check-row:last-child { margin-bottom: 0; }
+  .check-row:hover { background: var(--bg); }
+  .check-row.checked {
+    background: var(--green-bg);
+    border-color: var(--green-border);
+  }
+
+  .check-box {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--border-strong);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    transition: all 0.12s;
+    background: var(--surface);
+  }
+  .check-row.checked .check-box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .check-box i { font-size: 11px; color: #fff; }
+
+  .check-text {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text-primary);
+    transition: color 0.12s;
+  }
+  .check-row.checked .check-text {
+    color: var(--green-text);
+    text-decoration: line-through;
+    text-decoration-color: var(--green-border);
+  }
+
+  .warning-row {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: var(--radius-md);
+    background: var(--red-bg);
+    border: 0.5px solid var(--red-border);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--red-text);
+  }
+
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .risk-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+  }
+  .risk-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 3px;
+  }
+  .risk-val {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-hint);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="brand-dot"></div>
+      <div>
+        <h1>Checklist diario</h1>
+        <div class="subtitle">StreetPips &mdash; verifica antes de operar</div>
+      </div>
+    </div>
+    <button class="btn-reset" onclick="resetAll()">
+      <i class="ti ti-refresh"></i> Reiniciar
+    </button>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Progreso</span>
+      <span id="prog-text">0 / 12</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">
+      <i class="ti ti-trending-up" style="font-size:15px"></i>
+      Bloque 2 &mdash; dirección
+    </div>
+    <div id="checks-b2"></div>
+    <div class="warning-row" id="warn-b2" style="display:none">
+      <i class="ti ti-ban" style="font-size:16px"></i>
+      Algún ítem es NO &rarr; No operar
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">
+      <i class="ti ti-clock" style="font-size:15px"></i>
+      Bloque 3 &mdash; tiempo y precio
+    </div>
+    <div id="checks-b3"></div>
+    <div class="warning-row" id="warn-b3" style="display:none">
+      <i class="ti ti-ban" style="font-size:16px"></i>
+      Algún ítem es NO &rarr; No operar
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">
+      <i class="ti ti-shield" style="font-size:15px"></i>
+      Bloque 5 &mdash; gestión
+    </div>
+    <div class="risk-grid">
+      <div class="risk-card">
+        <div class="risk-label">Riesgo pasando prueba</div>
+        <div class="risk-val">1.5%</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-label">Riesgo fondeos</div>
+        <div class="risk-val">1.0%</div>
+      </div>
+    </div>
+    <div id="checks-b5"></div>
+  </div>
+
+  <footer>StreetPips &mdash; checklist operativo diario</footer>
+</div>
+
+<script>
+const b2items = [
+  "POI claro en H1",
+  "Liquidez identificada (interna o externa)",
+  "DOL definido"
+];
+const b3items = [
+  "Estás operando la apertura de la vela",
+  "El precio ha tomado algún máximo o mínimo de M15, M30 o H1 en esta apertura",
+  "Estás antes del minuto 35 de la vela que operas",
+  "La narrativa es clara con tu dirección",
+  "Confirmación en M5 — creación OB",
+  "Stop técnico válido en el alto/bajo de la estructura de M5",
+  "R:B gráfico mínimo 1:2"
+];
+const b5items = [
+  "Mover BE en 1:1",
+  "Solo cerrar posición si estás debajo del 1:1, perdiendo poco o casi en SL, 10 min antes de apertura de nueva vela",
+  "Tomar beneficios de la entrada si faltan 10 min para apertura de vela y estás más de 1:1.5"
+];
+
+let state = {};
+
+function buildChecks(items, containerId, blockId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  items.forEach((txt, i) => {
+    const key = blockId + '_' + i;
+    const row = document.createElement('div');
+    row.className = 'check-row' + (state[key] ? ' checked' : '');
+    row.innerHTML = `<div class="check-box">${state[key] ? '<i class="ti ti-check"></i>' : ''}</div><span class="check-text">${txt}</span>`;
+    row.onclick = () => toggle(key, items, containerId, blockId);
+    el.appendChild(row);
+  });
+}
+
+function toggle(key, items, containerId, blockId) {
+  state[key] = !state[key];
+  buildChecks(items, containerId, blockId);
+  const warnEl = document.getElementById('warn-' + blockId);
+  if (warnEl) {
+    const done = items.filter((_, i) => state[blockId + '_' + i]).length;
+    warnEl.style.display = (done > 0 && done < items.length) ? 'flex' : 'none';
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const all = [...b2items.map((_, i) => 'b2_'+i), ...b3items.map((_, i) => 'b3_'+i)];
+  const done = all.filter(k => state[k]).length;
+  const total = all.length;
+  document.getElementById('prog-text').textContent = done + ' / ' + total;
+  document.getElementById('prog-bar').style.width = Math.round(done / total * 100) + '%';
+}
+
+function resetAll() {
+  state = {};
+  buildChecks(b2items, 'checks-b2', 'b2');
+  buildChecks(b3items, 'checks-b3', 'b3');
+  buildChecks(b5items, 'checks-b5', 'b5');
+  ['warn-b2','warn-b3'].forEach(id => document.getElementById(id).style.display = 'none');
+  updateProgress();
+}
+
+buildChecks(b2items, 'checks-b2', 'b2');
+buildChecks(b3items, 'checks-b3', 'b3');
+buildChecks(b5items, 'checks-b5', 'b5');
+updateProgress();
+</script>
+</body>
+</html>

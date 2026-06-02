@@ -1,0 +1,13 @@
+{
+  "name": "checklist-streetpips",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Checklist operativo diario para StreetPips",
+  "scripts": {
+    "start": "npx http-server -c-1 . -a localhost -p 8080",
+    "serve": "npm run start"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
