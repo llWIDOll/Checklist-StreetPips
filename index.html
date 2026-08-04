@@ -109,6 +109,57 @@
   }
   .btn-reset:hover { background: var(--bg); }
 
+  /* ── Tabs ── */
+  .tabs-bar {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 11px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2.5px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-btn:hover {
+    color: var(--text-primary);
+  }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+  .tab-btn i {
+    font-size: 16px;
+  }
+
+  .tab-panel {
+    display: none;
+    animation: fadeInTab 0.22s ease;
+  }
+  .tab-panel.active {
+    display: block;
+  }
+  @keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   .progress-wrap {
     margin-bottom: 1.5rem;
   }
@@ -275,63 +326,117 @@
     </button>
   </header>
 
-  <div class="progress-wrap">
-    <input id="active-input" class="progress-input" type="text" placeholder="Activo" aria-label="Activo" />
-    <div class="progress-label">
-      <span>Progreso</span>
-      <span id="prog-text">0 / 12</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="prog-bar" style="width:0%"></div>
-    </div>
+  <!-- ── Tabs ── -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" data-tab="original" onclick="switchTab('original')">
+      <i class="ti ti-list-check"></i> Checklist M5
+    </button>
+    <button class="tab-btn" data-tab="nas100" onclick="switchTab('nas100')">
+      <i class="ti ti-chart-candle"></i> NAS100 M1
+    </button>
   </div>
 
-  <div class="block">
-    <div class="block-title">
-      <i class="ti ti-trending-up" style="font-size:15px"></i>
-      Bloque 2 &mdash; dirección
-    </div>
-    <div id="checks-b2"></div>
-    <div class="warning-row" id="warn-b2" style="display:none">
-      <i class="ti ti-ban" style="font-size:16px"></i>
-      Algún ítem es NO &rarr; No operar
-    </div>
-  </div>
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- TAB 1: Checklist Original                      -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="tab-panel active" id="panel-original">
 
-  <div class="block">
-    <div class="block-title">
-      <i class="ti ti-clock" style="font-size:15px"></i>
-      Bloque 3 &mdash; tiempo y precio
-    </div>
-    <div id="checks-b3"></div>
-    <div class="warning-row" id="warn-b3" style="display:none">
-      <i class="ti ti-ban" style="font-size:16px"></i>
-      Algún ítem es NO &rarr; No operar
-    </div>
-  </div>
-
-  <div class="block">
-    <div class="block-title">
-      <i class="ti ti-shield" style="font-size:15px"></i>
-      Bloque 5 &mdash; gestión
-    </div>
-    <div class="risk-grid">
-      <div class="risk-card">
-        <div class="risk-label">Riesgo pasando prueba</div>
-        <div class="risk-val">1.5%</div>
+    <div class="progress-wrap">
+      <input id="active-input-original" class="progress-input" type="text" placeholder="Activo" aria-label="Activo" />
+      <div class="progress-label">
+        <span>Progreso</span>
+        <span id="prog-text-original">0 / 12</span>
       </div>
-      <div class="risk-card">
-        <div class="risk-label">Riesgo fondeos</div>
-        <div class="risk-val">1.0%</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-bar-original" style="width:0%"></div>
       </div>
     </div>
-    <div id="checks-b5"></div>
+
+    <div class="block">
+      <div class="block-title">
+        <i class="ti ti-trending-up" style="font-size:15px"></i>
+        Bloque 2 &mdash; dirección
+      </div>
+      <div id="checks-b2"></div>
+      <div class="warning-row" id="warn-b2" style="display:none">
+        <i class="ti ti-ban" style="font-size:16px"></i>
+        Algún ítem es NO &rarr; No operar
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">
+        <i class="ti ti-clock" style="font-size:15px"></i>
+        Bloque 3 &mdash; tiempo y precio
+      </div>
+      <div id="checks-b3"></div>
+      <div class="warning-row" id="warn-b3" style="display:none">
+        <i class="ti ti-ban" style="font-size:16px"></i>
+        Algún ítem es NO &rarr; No operar
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">
+        <i class="ti ti-shield" style="font-size:15px"></i>
+        Bloque 5 &mdash; gestión
+      </div>
+      <div class="risk-grid">
+        <div class="risk-card">
+          <div class="risk-label">Riesgo pasando prueba</div>
+          <div class="risk-val">1.5%</div>
+        </div>
+        <div class="risk-card">
+          <div class="risk-label">Riesgo fondeos</div>
+          <div class="risk-val">1.0%</div>
+        </div>
+      </div>
+      <div id="checks-b5"></div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- TAB 2: Estrategia NAS100 – TF M1              -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-nas100">
+
+    <div class="progress-wrap">
+      <input id="active-input-nas100" class="progress-input" type="text" placeholder="Activo" aria-label="Activo" />
+      <div class="progress-label">
+        <span>Progreso</span>
+        <span id="prog-text-nas100">0 / 9</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-bar-nas100" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">
+        <i class="ti ti-chart-candle" style="font-size:15px"></i>
+        Estrategia NAS100 &mdash; TF M1
+      </div>
+      <div id="checks-nas100"></div>
+      <div class="warning-row" id="warn-nas100" style="display:none">
+        <i class="ti ti-ban" style="font-size:16px"></i>
+        Si alguno es NO &rarr; No operar
+      </div>
+      <div class="warning-row" style="margin-top:10px;background:var(--accent-light);border-color:var(--accent);color:var(--accent)">
+        <i class="ti ti-clock-exclamation" style="font-size:16px"></i>
+        CERRAR EL TRADE COMO ESTÉ A LAS 10:00
+      </div>
+    </div>
+
   </div>
 
   <footer>StreetPips &mdash; checklist operativo diario</footer>
 </div>
 
 <script>
+// Directiva: ui_tabs_checklist_nas100.md v1.0.0
+
+// ── Tab Original items ──
 const b2items = [
   "POI claro en H1",
   "Liquidez identificada (interna o externa)",
@@ -352,8 +457,34 @@ const b5items = [
   "Tomar beneficios de la entrada si faltan 10 min para apertura de vela y estás más de 1:1.5"
 ];
 
-let state = {};
+// ── Tab NAS100 items ──
+const nas100items = [
+  "¿Dónde estoy? POI en H1",
+  "Rango de 8:12 a 9:12 (máximo y mínimo)",
+  "ENTRADA SOLO DESPUES DE LAS 9:30 NY",
+  "Tomar entrada solo si saca el máximo o el mínimo",
+  "¿La narrativa es clara con tu dirección?",
+  "Confirmación en M1: creación del OB y confirmación del 25% FIBONACCI",
+  "SL técnico en el máximo o mínimo de la estructura M1. Colocar 10 puntos",
+  "RB gráfico mínimo 1:2",
+  "TP 1: 75% del Fibo – TP 2: 100% del Fibo o RB 1:2"
+];
 
+let state = {};
+let activeTab = 'original';
+
+// ── Tab switching ──
+function switchTab(tabId) {
+  activeTab = tabId;
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabId);
+  });
+  document.querySelectorAll('.tab-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.id === 'panel-' + tabId);
+  });
+}
+
+// ── Build checks ──
 function buildChecks(items, containerId, blockId) {
   const el = document.getElementById(containerId);
   el.innerHTML = '';
@@ -378,28 +509,50 @@ function toggle(key, items, containerId, blockId) {
   updateProgress();
 }
 
+// ── Progress ──
 function updateProgress() {
-  const all = [...b2items.map((_, i) => 'b2_'+i), ...b3items.map((_, i) => 'b3_'+i)];
-  const done = all.filter(k => state[k]).length;
-  const total = all.length;
-  document.getElementById('prog-text').textContent = done + ' / ' + total;
-  document.getElementById('prog-bar').style.width = Math.round(done / total * 100) + '%';
+  // Original tab progress (b2 + b3)
+  const origKeys = [...b2items.map((_, i) => 'b2_'+i), ...b3items.map((_, i) => 'b3_'+i)];
+  const origDone = origKeys.filter(k => state[k]).length;
+  const origTotal = origKeys.length;
+  document.getElementById('prog-text-original').textContent = origDone + ' / ' + origTotal;
+  document.getElementById('prog-bar-original').style.width = Math.round(origDone / origTotal * 100) + '%';
+
+  // NAS100 tab progress
+  const nasKeys = nas100items.map((_, i) => 'nas100_'+i);
+  const nasDone = nasKeys.filter(k => state[k]).length;
+  const nasTotal = nasKeys.length;
+  document.getElementById('prog-text-nas100').textContent = nasDone + ' / ' + nasTotal;
+  document.getElementById('prog-bar-nas100').style.width = Math.round(nasDone / nasTotal * 100) + '%';
 }
 
+// ── Reset ──
 function resetAll() {
-  state = {};
-  buildChecks(b2items, 'checks-b2', 'b2');
-  buildChecks(b3items, 'checks-b3', 'b3');
-  buildChecks(b5items, 'checks-b5', 'b5');
-  ['warn-b2','warn-b3'].forEach(id => document.getElementById(id).style.display = 'none');
-  const activeInput = document.getElementById('active-input');
-  if (activeInput) activeInput.value = '';
+  if (activeTab === 'original') {
+    b2items.forEach((_, i) => { delete state['b2_' + i]; });
+    b3items.forEach((_, i) => { delete state['b3_' + i]; });
+    b5items.forEach((_, i) => { delete state['b5_' + i]; });
+    buildChecks(b2items, 'checks-b2', 'b2');
+    buildChecks(b3items, 'checks-b3', 'b3');
+    buildChecks(b5items, 'checks-b5', 'b5');
+    ['warn-b2','warn-b3'].forEach(id => document.getElementById(id).style.display = 'none');
+    const activeInput = document.getElementById('active-input-original');
+    if (activeInput) activeInput.value = '';
+  } else if (activeTab === 'nas100') {
+    nas100items.forEach((_, i) => { delete state['nas100_' + i]; });
+    buildChecks(nas100items, 'checks-nas100', 'nas100');
+    document.getElementById('warn-nas100').style.display = 'none';
+    const activeInput = document.getElementById('active-input-nas100');
+    if (activeInput) activeInput.value = '';
+  }
   updateProgress();
 }
 
+// ── Init ──
 buildChecks(b2items, 'checks-b2', 'b2');
 buildChecks(b3items, 'checks-b3', 'b3');
 buildChecks(b5items, 'checks-b5', 'b5');
+buildChecks(nas100items, 'checks-nas100', 'nas100');
 updateProgress();
 </script>
 </body>
