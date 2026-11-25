@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mente Millonaria · Rutina diaria</title>
+<style>
+:root{--bg:#faf7f0;--card:#fff;--ink:#1f2937;--mute:#6b7280;--line:#e5dfd0;--gold:#b7791f;--goldbg:#fdf3dc;--ok:#2f855a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14120e;--card:#1e1b15;--ink:#f3eee2;--mute:#a39b88;--line:#37322a;--gold:#e8b455;--goldbg:#2b2413;--ok:#68d391}}
+:root[data-theme="dark"]{--bg:#14120e;--card:#1e1b15;--ink:#f3eee2;--mute:#a39b88;--line:#37322a;--gold:#e8b455;--goldbg:#2b2413;--ok:#68d391}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Georgia,"Times New Roman",serif}
+main{max-width:720px;margin:0 auto;padding:16px 14px 60px}
+h1{font-size:1.5rem;margin:8px 0 2px}
+.sub{color:var(--mute);margin:0 0 14px;font-size:.95rem}
+nav{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px}
+nav button,.btn{font:inherit;font-size:.92rem;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+nav button.on,.btn.pri{background:var(--gold);color:#fff;border-color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.num{color:var(--gold);font-weight:bold;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
+.vs{margin:4px 0 10px}.vs b{color:var(--ok)}.vs span{color:var(--mute)}
+.pr{font-style:italic;color:var(--mute);margin:0 0 12px}
+.decl{background:var(--goldbg);border-left:4px solid var(--gold);padding:12px 14px;border-radius:8px;margin:10px 0}
+.decl p{margin:0 0 4px;font-size:1.08rem}
+.gest{font-size:.82rem;color:var(--mute);margin:8px 0 0}
+label{display:flex;gap:10px;align-items:flex-start;padding:5px 0;cursor:pointer}
+input[type=checkbox]{width:20px;height:20px;margin-top:3px;accent-color:var(--gold);flex:none}
+label.done span{text-decoration:line-through;color:var(--mute)}
+h3{font-size:1rem;margin:14px 0 4px}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 14px}.bar i{display:block;height:100%;background:var(--gold);width:0}
+input[type=text],input[type=number]{font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.big{font-size:1.6rem;color:var(--gold);font-weight:bold}
+ul{padding-left:20px}
+.hide{display:none}
+details{margin:8px 0}summary{cursor:pointer;color:var(--gold)}
+</style>
+</head>
+<body>
+<main>
+<h1>Mente Millonaria</h1>
+<p class="sub">Rutina diaria basada en <em>Los secretos de la mente millonaria</em>, de T. Harv Eker. Cada día repasas 2 o 3 archivos de riqueza (ciclo de 6 días).</p>
+<nav id="nav"></nav>
+<section id="v-hoy"></section>
+<section id="v-rut" class="hide"></section>
+<section id="v-todos" class="hide"></section>
+<section id="v-nw" class="hide"></section>
+</main>
+<script>
+var A=[
+[1,"Yo creo mi vida","La vida es algo que me sucede","El dinero es muy importante donde funciona y poco donde no. Quejarte te vuelve un imán de desgracias. Ninguna víctima es rica.","Yo creo el nivel exacto de mi prosperidad económica.",["Cuando te quejes, culpes o justifiques, desliza el dedo por el cuello como recordatorio.","Cada noche anota una cosa buena y una mala del día y pregúntate: ¿cómo creé cada una? ¿Cuál fue mi parte?"]],
+[2,"Juega el juego del dinero para ganar","Juega para no perder","Si tu meta es estar cómodo, probablemente nunca serás rico. Si tu meta es ser rico, acabarás muy cómodo.","Mi meta es convertirme en millonario y más.",["Escribe metas de ingresos anuales y de fortuna neta: alcanzables, pero apuntando a las estrellas.","Come en un buen restaurante y pide un plato a “precio de mercado” sin preguntar cuánto cuesta."]],
+[3,"Se compromete a ser rica","Desearía ser rica","No saber qué quieres es la razón número uno de no obtenerlo. Sin compromiso total, lo más probable es que no lo logres.","Me comprometo a ser rico.",["Escribe un párrafo concreto sobre por qué es importante para ti crear riqueza.","Frente a alguien de confianza, mano en el corazón: “Yo, ___, me comprometo a convertirme en millonario antes de ___”. Que te responda “Yo creo en ti”, y di “gracias”."]],
+[4,"Piensa en grande","Piensa en pequeño","Se te paga en proporción al valor que das al mercado. Cuenta cuánta gente sirves.","¡Pienso en grande! Elijo ayudar a miles y miles de personas.",["Anota tus talentos naturales y cómo usar más de ellos en tu trabajo.","Escribe al menos tres estrategias para servir a diez veces más personas."]],
+[5,"Se centra en las oportunidades","Se centra en los obstáculos","Aquello en lo que te enfocas se expande. Prepárate lo mejor que puedas, actúa y corrige en el camino.","Me centro en las oportunidades por encima de los obstáculos. ¡Preparados, apunten, fuego!",["Empieza ya ese proyecto pendiente, desde donde estás y con lo que tienes.","Hoy reformula como oportunidad todo lo que alguien llame problema u obstáculo.","Lista diez cosas por las que estás agradecido y léela en voz alta cada mañana durante 30 días."]],
+[6,"Admira a la gente rica","Le molesta la gente rica","“Bendice aquello que quieras.” Si te molesta lo que otros tienen, no podrás tenerlo.","¡Admiro a la gente rica! ¡La bendigo! ¡La amo! ¡Y yo también voy a ser una de esas personas!",["Bendice lo que veas: casas bonitas, autos de lujo, negocios prósperos y a sus dueños.","Escribe un mensaje breve de admiración a alguien muy próspero."]],
+[7,"Se relaciona con gente positiva y próspera","Se relaciona con gente negativa y sin éxito","Tu entorno te eleva o te hunde. Aprende de quienes ya llegaron donde tú quieres ir.","Imito a la gente rica y próspera. Me relaciono con ella. Si ellos pueden, yo puedo.",["Lee la biografía de alguien muy próspero (Carnegie, Rockefeller, Buffett…).","Frecuenta un entorno de gente próspera: un club o el café de un buen hotel.","Aléjate de una persona o situación negativa.","Deja la telebasura y las malas noticias."]],
+[8,"Se promociona sin complejos","Piensa mal de vender y promocionar","Los líderes ganan mucho más que los seguidores. Si crees en tu valía, ocultarla a quien la necesita no tiene sentido.","Promociono mi valía con pasión y entusiasmo.",["Puntúa de 1 a 10 cuánto crees en tu producto o servicio. De 7 a 9, mejóralo; por debajo de 6, cámbialo.","Estudia ventas y marketing hasta poder promocionarte con total integridad."]],
+[9,"Es más grande que sus problemas","Es más pequeña que sus problemas","No evites los problemas: crece hasta ser más grande que ellos. Un gran problema significa que te estás sintiendo pequeño.","Soy más grande que cualquier problema. Puedo manejar cualquier problema.",["Ante un “gran” problema, señálate: “¡Pequeño yo!”. Respira y di: “Puedo manejar esto”.","Escribe un problema actual y diez acciones concretas para resolverlo o mejorarlo."]],
+[10,"Es excelente receptora","Es mala receptora","Dar y recibir pesan lo mismo. El dinero solo potencia tu carácter. La forma en que haces algo es la forma en que lo haces todo.","Soy un excelente receptor. Estoy abierto y dispuesto a recibir enormes cantidades de dinero en mi vida.",["Ante un cumplido, di solo “gracias”, sin devolverlo.","Celebra cualquier dinero que recibas: “Soy un imán para el dinero. Gracias, gracias, gracias”.","Mímate al menos una vez al mes con algo especial."]],
+[11,"Elige que le paguen por resultados","Elige que le paguen por tiempo","Un sueldo fijo no es malo, salvo cuando limita lo que podrías ganar. Nunca pongas techo a tus ingresos.","Elijo que se me pague de acuerdo con mis resultados.",["Propón a tu empleador un plan de pago parcial por resultados (o créalo para tu equipo si tienes negocio).","Si no te pagan lo que mereces, plantéate un negocio propio, aunque sea a tiempo parcial."]],
+[12,"Piensa “las dos cosas”","Piensa “o esto o lo otro”","Los ricos creen que se puede tener el pastel y comérselo. Los pobres ni sienten que lo merezcan.","Siempre pienso: las dos cosas.",["Ante cada alternativa pregúntate: “¿Cómo puedo tener las dos cosas?”.","Al gastar, di: “Este dinero pasará por cientos de personas y creará valor para todas”.","Sé un modelo: amable, generoso, afectuoso y rico."]],
+[13,"Se centra en su fortuna neta","Se centra en lo que gana con su trabajo","La medida real de la riqueza es tu fortuna neta (lo que posees menos lo que debes). Lo que mides crece.","¡Me centro en construir una fortuna neta!",["Enfócate en 4 factores: subir ingresos, ahorros y rendimientos de inversión, y reducir gastos.","Calcula tu fortuna neta y revísala cada trimestre (usa la pestaña Fortuna).","Contrata a un planificador financiero acreditado; pide referencias."]],
+[14,"Administra bien su dinero","Administra mal su dinero","Hasta que demuestres que manejas lo que tienes, no recibirás más. El hábito importa más que la cantidad.","Soy un excelente administrador del dinero.",["Abre tu Cuenta de la Libertad Financiera con el 10% de tus ingresos netos: solo se invierte, nunca se gasta.","Pon un bote de Libertad Financiera en casa y échale dinero cada día.","Reparte: 10% Libertad Financiera, 10% Juego y diversión, 10% Ahorro a largo plazo, 10% Formación, 10% Donativos y 50% Necesidades básicas.","Empieza a administrar ya, aunque tengas solo un dólar."]],
+[15,"Hace que su dinero trabaje para ella","Trabaja duro por su dinero","Cada dólar es una semilla que puede multiplicarse. Pasa de ingresos activos a pasivos.","Mi dinero trabaja para mí y cada vez me gana más dinero.",["Infórmate: un libro de inversión al mes, seminarios y revistas financieras. Elige un área y conviértete en experto.","Lista al menos tres estrategias de ingresos pasivos e investígalas.","No esperes a comprar inmuebles: compra y espera."]],
+[16,"Actúa a pesar del miedo","Deja que el miedo la detenga","La acción es el puente entre el mundo interior y el exterior. No necesitas librarte del miedo, solo no dejar que te frene. Solo creces cuando te sientes incómodo (ZC = ZR).","Actúo a pesar del miedo, de la duda, de la preocupación, de los inconvenientes y de la incomodidad. Actúo cuando no estoy de humor.",["Anota tus tres mayores miedos con el dinero y escribe qué harías si ocurrieran de verdad.","Sal a propósito de tu zona de comodidad con una decisión incómoda.","Pensamiento de poder: desafía la voz que dice “no puedo”, “no quiero” o “no me apetece”."]],
+[17,"Aprende y crece constantemente","Cree que ya lo sabe","Puedes ir tirando o ser rico, pero no ambas. Todo maestro fue aprendiz. Aprende de quienes ya están donde quieres llegar.","Me comprometo a aprender y crecer constantemente.",["Cada mes, lee un libro, escucha un audio o haz un seminario de dinero, negocios o desarrollo personal.","Plantéate contratar un entrenador personal.","Opcional: el seminario Intensivo Mente Millonaria (es una oferta comercial del autor)."]]
+];
+var P1=["Mi mundo interior crea mi mundo exterior.","Lo que oí sobre el dinero no es necesariamente cierto. Decido adoptar formas de pensar que contribuyan a mi felicidad y prosperidad.","Lo que tomé como modelo sobre el dinero fue la forma de actuar de otros. Ahora yo decido la mía.","Libero mis experiencias negativas del pasado con el dinero y creo un futuro nuevo y rico.","Observo mis pensamientos y solo tomo en cuenta los que me dan poder."];
+var G=[[1,2,3],[4,5,6],[7,8,9],[10,11,12],[13,14,15],[16,17]];
+var S={days:{},acts:{},nw:[]},off=0;
+try{var raw=localStorage.getItem("mm1");if(raw)S=JSON.parse(raw)}catch(e){}
+function save(){try{localStorage.setItem("mm1",JSON.stringify(S))}catch(e){}}
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function dkey(o){var d=new Date();d.setDate(d.getDate()+o);return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function dnum(o){var d=new Date();d.setDate(d.getDate()+o);return Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/864e5)}
+var GEST="Mano en el corazón: di la declaración. Luego tócate la cabeza y di: “Tengo una mente millonaria”.";
+function card(a,k,full){
+var n=a[0],day=S.days[k]||{},h='<div class="card"><div class="num">Archivo de riqueza '+n+'</div><div class="vs"><b>Rica: '+esc(a[1])+'</b><br><span>Pobre: '+esc(a[2])+'</span></div><p class="pr">'+esc(a[3])+'</p><div class="decl"><p>“'+esc(a[4])+'”</p><p class="gest">'+GEST+'</p></div>';
+if(!full){h+='<label class="'+(day["m"+n]?"done":"")+'"><input type="checkbox" data-d="'+k+'" data-k="m'+n+'" '+(day["m"+n]?"checked":"")+'><span>Declaración de la mañana</span></label><label class="'+(day["n"+n]?"done":"")+'"><input type="checkbox" data-d="'+k+'" data-k="n'+n+'" '+(day["n"+n]?"checked":"")+'><span>Declaración de la noche</span></label>'}
+h+='<h3>Acciones de la mente millonaria</h3>';
+a[5].forEach(function(t,i){var id="a"+n+"_"+i,c=S.acts[id];h+='<label class="'+(c?"done":"")+'"><input type="checkbox" data-a="'+id+'" '+(c?"checked":"")+'><span>'+esc(t)+'</span></label>'});
+return h+'</div>'}
+function hoy(){
+var gi=((dnum(off)%6)+6)%6,k=dkey(off),ids=G[gi],lbl=off===0?"Hoy":(off<0?"Hace "+(-off)+" d":"En "+off+" d");
+var h='<div class="row"><button class="btn" id="pv">←</button><strong>'+lbl+' · Día '+(gi+1)+' de 6 · archivos '+ids.join(", ")+'</strong><button class="btn" id="nx">→</button></div><div class="bar"><i id="pb"></i></div>';
+ids.forEach(function(n){h+=card(A[n-1],k,false)});
+$("v-hoy").innerHTML=h;
+var day=S.days[k]||{},tot=ids.length*2,d=0;ids.forEach(function(n){if(day["m"+n])d++;if(day["n"+n])d++});
+$("pb").style.width=(100*d/tot)+"%";
+$("pv").onclick=function(){off--;hoy()};$("nx").onclick=function(){off++;hoy()};
+}
+function rut(){
+var h='<div class="card"><div class="num">Rutina de la mañana (10–15 min)</div><ol><li>Ponte frente al espejo.</li><li>Di las 5 declaraciones base (abajo), con la mano en el corazón y luego en la cabeza.</li><li>Di las declaraciones de los archivos del día (pestaña Hoy).</li><li>Lee en voz alta tu lista de 10 agradecimientos (archivo 5).</li><li>Elige una acción del día y hazla antes de que acabe la jornada.</li></ol></div><div class="card"><div class="num">Rutina de la noche (5–10 min)</div><ol><li>Repite las declaraciones de los archivos del día.</li><li>Haz tu “informe”: una cosa que fue bien, una que fue mal y cómo creaste cada una.</li><li>Marca las acciones realizadas.</li></ol></div><div class="card"><div class="num">Declaraciones base (primera parte)</div>';
+P1.forEach(function(t){h+='<div class="decl"><p>“'+esc(t)+'”</p></div>'});
+h+='<p class="gest">Después de cada una: mano en la cabeza y “Tengo una mente millonaria”.</p></div><div class="card"><div class="num">Plan de relectura</div><p>Eker recomienda releer el libro completo al menos una vez al mes durante todo el año siguiente. Un capítulo cada 2 o 3 días te permite terminarlo en el mes.</p></div>';
+$("v-rut").innerHTML=h}
+function todos(){var h='';A.forEach(function(a){h+=card(a,"x",true)});$("v-todos").innerHTML=h}
+function nw(){
+var h='<div class="card"><div class="num">Fortuna neta</div><p>Suma todo lo que posees (efectivo, inversiones, inmuebles, valor de tu negocio) y resta todo lo que debes. Revísala cada trimestre.</p><div class="g2"><div><label>Activos</label><input type="number" id="as" inputmode="decimal" placeholder="0"></div><div><label>Deudas</label><input type="number" id="pa" inputmode="decimal" placeholder="0"></div></div><p>Fortuna neta: <span class="big" id="nv">0</span></p><input type="text" id="nt" placeholder="Nota (opcional)"><p><button class="btn pri" id="ns">Guardar registro</button></p></div><div class="card"><div class="num">Historial</div><div id="nh"></div></div>';
+$("v-nw").innerHTML=h;
+function calc(){var v=(parseFloat($("as").value)||0)-(parseFloat($("pa").value)||0);$("nv").textContent=v.toLocaleString("es");return v}
+$("as").oninput=calc;$("pa").oninput=calc;
+$("ns").onclick=function(){S.nw.push({d:dkey(0),a:parseFloat($("as").value)||0,p:parseFloat($("pa").value)||0,t:$("nt").value});save();list()};
+list()}
+function list(){var h="";S.nw.slice().reverse().forEach(function(r){h+="<p>"+r.d+": <b>"+(r.a-r.p).toLocaleString("es")+"</b> <span style='color:var(--mute)'>(activos "+r.a.toLocaleString("es")+", deudas "+r.p.toLocaleString("es")+") "+esc(r.t||"")+"</span></p>"});$("nh").innerHTML=h||"<p style='color:var(--mute)'>Aún no hay registros.</p>"}
+document.addEventListener("change",function(e){var t=e.target;if(t.type!=="checkbox")return;
+if(t.dataset.a){S.acts[t.dataset.a]=t.checked;document.querySelectorAll('input[data-a="'+t.dataset.a+'"]').forEach(function(x){x.checked=t.checked;x.parentNode.className=t.checked?"done":""})}
+else{var d=S.days[t.dataset.d]||(S.days[t.dataset.d]={});d[t.dataset.k]=t.checked;save();hoy();return}
+save()});
+var T=[["v-hoy","Hoy"],["v-rut","Rutina"],["v-todos","Los 17 archivos"],["v-nw","Fortuna"]];
+function tab(id){T.forEach(function(x){$(x[0]).classList.toggle("hide",x[0]!==id)});[].forEach.call($("nav").children,function(b,i){b.className=T[i][0]===id?"on":""})}
+T.forEach(function(x){var b=document.createElement("button");b.textContent=x[1];b.onclick=function(){tab(x[0])};$("nav").appendChild(b)});
+hoy();rut();todos();nw();tab("v-hoy");
+</script>
+</body>
+</html>
